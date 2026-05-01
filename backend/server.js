@@ -25,10 +25,26 @@ connectDB();
 // JSON parser
 app.use(express.json());
 
-// 🔥 CORS (IMPORTANT FOR VERCEL)
+// 🔥 CORS (FIXED FOR LOCAL + PROD)
+const allowedOrigins = [
+  "http://localhost:5173", // local frontend
+  "http://localhost:3000", // optional
+  "https://team-task-manager-gules-omega.vercel.app", // vercel default
+  "https://taskmanager.sumitweb.me", // custom domain
+];
+
 app.use(
   cors({
-    origin: "https://team-task-manager-gules-omega.vercel.app",
+    origin: function (origin, callback) {
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS not allowed"));
+      }
+    },
     credentials: true,
   })
 );
@@ -56,10 +72,10 @@ app.use((req, res) => {
 
 // ================= ERROR HANDLER =================
 app.use((err, req, res, next) => {
-  console.error("SERVER ERROR:", err.stack);
+  console.error("SERVER ERROR:", err.message);
 
   res.status(500).json({
-    message: "Something went wrong",
+    message: err.message || "Something went wrong",
   });
 });
 
