@@ -7,7 +7,7 @@ export const createProject = async (req, res) => {
   try {
     const { title, description, members } = req.body;
 
-    // 🔹 Validation
+    // Validation
     if (!title) {
       return res.status(400).json({ message: "Project title is required" });
     }
@@ -73,7 +73,7 @@ export const deleteProject = async (req, res) => {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    // 🔥 Extra safety (optional but good)
+    // Extra safety (optional but good)
     if (
       req.user.role !== "admin" &&
       project.createdBy.toString() !== req.user._id.toString()

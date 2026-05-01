@@ -11,32 +11,32 @@ import taskRoutes from "./routes/taskRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 
-// Load env variables
+// env 
 dotenv.config();
 
 // Initialize app
 const app = express();
 
-// ================= DATABASE =================
+//  DATABASE
 connectDB();
 
-// ================= MIDDLEWARE =================
+// MIDDLEWARE 
 
 // JSON parser
 app.use(express.json());
 
-// 🔥 CORS (FIXED FOR LOCAL + PROD)
+
 const allowedOrigins = [
-  "http://localhost:5173", // local frontend
-  "http://localhost:3000", // optional
-  "https://team-task-manager-gules-omega.vercel.app", // vercel default
-  "https://taskmanager.sumitweb.me", // custom domain
+  "http://localhost:5173", 
+  "http://localhost:3000", 
+  "https://team-task-manager-gules-omega.vercel.app",
+  "https://taskmanager.sumitweb.me", 
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (like Postman)
+
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -49,7 +49,7 @@ app.use(
   })
 );
 
-// ================= ROUTES =================
+// ROUTES
 
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoutes);
@@ -58,19 +58,19 @@ app.use("/api/tasks", taskRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/users", userRoutes);
 
-// ================= HEALTH CHECK =================
+// HEALTH CHECK 
 app.get("/", (req, res) => {
   res.send("🚀 API is running...");
 });
 
-// ================= 404 HANDLER =================
+// 404 HANDLER 
 app.use((req, res) => {
   res.status(404).json({
     message: "Route not found",
   });
 });
 
-// ================= ERROR HANDLER =================
+// ERROR HANDLER 
 app.use((err, req, res, next) => {
   console.error("SERVER ERROR:", err.message);
 
@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ================= SERVER =================
+// SERVER 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {

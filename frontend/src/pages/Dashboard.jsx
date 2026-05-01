@@ -21,7 +21,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gray-50 px-6 py-8">
       <div className="max-w-6xl mx-auto space-y-8">
 
-        {/* 🔷 Welcome Section */}
+        {/* Welcome Section */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold text-gray-800">
@@ -44,7 +44,7 @@ const Dashboard = () => {
           </p>
         </div>
 
-        {/* 🔷 Stats Section */}
+        {/* Stats Section */}
         {!stats ? (
           <div className="text-center text-gray-400 py-12">
             Loading dashboard...

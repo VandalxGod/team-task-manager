@@ -1,6 +1,6 @@
 import Task from "../models/Task.js";
 
-/* CREATE TASK (Admin only) */
+//  CREATE TASK (Admin only) 
 export const createTask = async (req, res) => {
   try {
     const { title, description, project, assignedTo, dueDate } = req.body;
@@ -36,7 +36,7 @@ export const createTask = async (req, res) => {
 };
 
 
-/* GET TASKS (Role-Based) */
+// GET TASKS (Role-Based)
 export const getTasks = async (req, res) => {
   try {
     let query = {};
@@ -53,7 +53,7 @@ export const getTasks = async (req, res) => {
     const tasks = await Task.find(query)
       .populate("project", "title")
       .populate("assignedTo", "name email")
-      .sort({ createdAt: -1 }); // latest first
+      .sort({ createdAt: -1 }); 
 
     res.json(tasks);
 
@@ -64,7 +64,7 @@ export const getTasks = async (req, res) => {
 };
 
 
-/*  UPDATE TASK STATUS */
+//  UPDATE TASK STATUS
 export const updateTaskStatus = async (req, res) => {
   try {
     const { status } = req.body;
@@ -110,7 +110,7 @@ export const updateTaskStatus = async (req, res) => {
 };
 
 
-/* DELETE TASK (Admin only) */
+// DELETE TASK (Admin only)
 export const deleteTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
@@ -121,7 +121,7 @@ export const deleteTask = async (req, res) => {
       });
     }
 
-    // 🔥 Only admin can delete
+    // Only admin can delete
     if (req.user.role !== "admin") {
       return res.status(403).json({
         message: "Only admin can delete tasks",

@@ -11,22 +11,18 @@ import authorizeRoles from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-/*
-========================================
-📌 TASK ROUTES
-========================================
-*/
+// TASK ROUTES
 
-// 🔹 Create Task (Admin only)
+// Create Task (Admin only)
 router.post("/", protect, authorizeRoles("admin"), createTask);
 
-// 🔹 Get Tasks (Logged-in user)
+// Get Tasks (Logged-in user)
 router.get("/", protect, getTasks);
 
-// 🔹 Update Task Status (Assigned users only)
+// Update Task Status (Assigned users only)
 router.put("/:id", protect, updateTaskStatus);
 
-// 🔥 Delete Task (Admin only)
+// Delete Task (Admin only)
 router.delete("/:id", protect, authorizeRoles("admin"), deleteTask);
 
 export default router;

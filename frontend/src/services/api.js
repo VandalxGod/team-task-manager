@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// ✅ Create Axios Instance
+// Create Axios Instance
 const API = axios.create({
   baseURL: "https://team-task-manager-sdo8.onrender.com/api",
   // baseURL: "http://localhost:5000/api", 
@@ -10,8 +10,7 @@ const API = axios.create({
   withCredentials: true,
 });
 
-// ================= REQUEST INTERCEPTOR =================
-// 🔥 Attach token automatically
+
 API.interceptors.request.use(
   (req) => {
     try {
@@ -29,18 +28,16 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ================= RESPONSE INTERCEPTOR =================
-// 🔥 Handle global errors (important for production)
+
 API.interceptors.response.use(
   (response) => response,
   (error) => {
-    // ❌ Unauthorized (token expired or invalid)
+
     if (error.response?.status === 401) {
       console.warn("Session expired. Logging out...");
 
       localStorage.removeItem("user");
 
-      // Redirect to login
       window.location.href = "/";
     }
 
