@@ -4,7 +4,7 @@ import authorizeRoles from "../middleware/roleMiddleware.js";
 
 const router = express.Router();
 
-// 🔐 Protected route (any logged-in user)
+// Protected route (any logged-in user)
 router.get("/profile", protect, (req, res) => {
   res.json({
     message: "User profile accessed",
@@ -12,7 +12,7 @@ router.get("/profile", protect, (req, res) => {
   });
 });
 
-// 🔐 Admin only route
+// Admin only route
 router.get("/admin", protect, authorizeRoles("admin"), (req, res) => {
   res.json({
     message: "Welcome Admin",

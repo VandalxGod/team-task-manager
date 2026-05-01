@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Tasks from "./pages/Tasks";
+import TaskStatus from "./pages/TaskStatus";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
@@ -13,10 +14,11 @@ function App() {
   return (
     <Router>
       <Routes>
+
+
         <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Protected + Layout */}
         <Route
           path="/dashboard"
           element={
@@ -49,6 +51,19 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+
+        <Route
+          path="/tasks/:type"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <TaskStatus />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </Router>
   );

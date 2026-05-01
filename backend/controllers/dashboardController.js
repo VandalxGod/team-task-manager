@@ -1,31 +1,44 @@
 import Task from "../models/Task.js";
 
+// DASHBOARD STATS 
 export const getDashboardStats = async (req, res) => {
   try {
-    const userId = req.user._id;
+    let query = {};
 
-    const tasks = await Task.find({ assignedTo: userId });
+    //  ROLE-BASED LOGIC
+    if (req.user.role === "admin") {
+      // Admin → all tasks
+      query = {};
+    } else {
+      // Member → only assigned tasks
+      query = {
+        assignedTo: { $in: [req.user._id] },
+      };
+    }
 
-    const totalTasks = tasks.length;
+    //  COUNT USING DATABASE (FAST)
+    const totalTasks = await Task.countDocuments(query);
 
-    const completedTasks = tasks.filter(
-      (task) => task.status === "completed"
-    ).length;
+    const completedTasks = await Task.countDocuments({
+      ...query,
+      status: "completed",
+    });
 
-    const pendingTasks = tasks.filter(
-      (task) => task.status === "pending"
-    ).length;
+    const pendingTasks = await Task.countDocuments({
+      ...query,
+      status: "pending",
+    });
 
-    const inProgressTasks = tasks.filter(
-      (task) => task.status === "in-progress"
-    ).length;
+    const inProgressTasks = await Task.countDocuments({
+      ...query,
+      status: "in-progress",
+    });
 
-    const overdueTasks = tasks.filter(
-      (task) =>
-        task.dueDate &&
-        task.dueDate < new Date() &&
-        task.status !== "completed"
-    ).length;
+    const overdueTasks = await Task.countDocuments({
+      ...query,
+      dueDate: { $lt: new Date() },
+      status: { $ne: "completed" },
+    });
 
     res.json({
       totalTasks,
@@ -36,6 +49,7 @@ export const getDashboardStats = async (req, res) => {
     });
 
   } catch (error) {
+    console.error("DASHBOARD ERROR:", error);
     res.status(500).json({ message: error.message });
   }
 };

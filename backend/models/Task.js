@@ -17,7 +17,7 @@ const taskSchema = new mongoose.Schema(
       required: true,
     },
 
-    // 🔥 MULTIPLE USERS
+
     assignedTo: [
       {
         type: mongoose.Schema.Types.ObjectId,

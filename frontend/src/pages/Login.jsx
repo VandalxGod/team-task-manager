@@ -18,7 +18,7 @@ const Login = () => {
     try {
       const { data } = await API.post("/auth/login", form);
 
-      login(data); // save user globally
+      login(data);
       navigate("/dashboard");
 
     } catch (error) {
@@ -27,46 +27,67 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="p-6 shadow-lg rounded-lg w-80 bg-white"
-      >
-        <h2 className="text-xl font-bold mb-4 text-center">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-3 p-2 border rounded"
-          onChange={(e) =>
-            setForm({ ...form, email: e.target.value })
-          }
-        />
+      <div className="w-full max-w-sm">
 
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-3 p-2 border rounded"
-          onChange={(e) =>
-            setForm({ ...form, password: e.target.value })
-          }
-        />
+        {/* CARD */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-gray-200 rounded-xl shadow-md p-6 space-y-5"
+        >
+          {/* HEADER */}
+          <div className="text-center">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Login
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Access your account
+            </p>
+          </div>
 
-        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded">
-          Login
-        </button>
+          {/* INPUTS */}
+          <div className="space-y-3">
 
-        {/* ✅ ADD THIS PART HERE */}
-        <p className="mt-3 text-sm text-center">
-          Don’t have an account?{" "}
-          <span
-            className="text-blue-500 cursor-pointer"
-            onClick={() => navigate("/signup")}
-          >
-            Signup
-          </span>
-        </p>
-      </form>
+            <input
+              type="email"
+              placeholder="Email"
+              className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              onChange={(e) =>
+                setForm({ ...form, email: e.target.value })
+              }
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+              onChange={(e) =>
+                setForm({ ...form, password: e.target.value })
+              }
+            />
+
+          </div>
+
+          {/* BUTTON */}
+          <button className="w-full bg-gray-800 hover:bg-gray-900 text-white py-2 rounded-md text-sm transition">
+            Login
+          </button>
+
+          {/* SIGNUP */}
+          <p className="text-sm text-center text-gray-600">
+            Don’t have an account?{" "}
+            <span
+              className="text-gray-800 font-medium cursor-pointer hover:underline"
+              onClick={() => navigate("/signup")}
+            >
+              Signup
+            </span>
+          </p>
+
+        </form>
+
+      </div>
     </div>
   );
 };
